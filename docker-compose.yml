@@ -1,3 +1,5 @@
+version: "3.8"
+
 networks:
   web_network:
     driver: bridge
@@ -19,14 +21,16 @@ services:
       - "3306:3306"
     networks:
       - web_network
+
   node:
     container_name: aplicacaoNode
     image: marcelofocmenezes/node-eyesanalytic:latest
     restart: always
     ports:
       - "8080:8080"
- networks:
-  - web_network
-  - external_network
+    networks:
+      - web_network
+      - external_network
+
 volumes:
-mysql_data:
+  mysql_data:
