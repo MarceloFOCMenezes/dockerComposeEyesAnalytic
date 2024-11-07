@@ -27,6 +27,6 @@ services:
       - "8080:8080"
  networks:
   - web_network
-external_network
+  - external_network
 volumes:
 mysql_data:
