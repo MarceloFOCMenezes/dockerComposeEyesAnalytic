@@ -1,5 +1,3 @@
-create database eyesAnalytic;
-
 use eyesAnalytic;
 
 -- Criando tabela tipo de usuario
