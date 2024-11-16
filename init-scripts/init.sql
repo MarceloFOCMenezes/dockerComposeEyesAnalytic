@@ -1,3 +1,5 @@
+create database eyesAnalytic;
+
 use eyesAnalytic;
 
 -- Criando tabela tipo de usuario
@@ -132,7 +134,9 @@ insert into recurso (nomeRecurso) values
 ('Bytes Recebidos'),
 ('Bytes Enviados'),
 ('Pacotes Enviados'),
-('Pacotes Eecebidos');
+('Pacotes Recebidos'),
+('Conexões Ativas'),
+('Latência');
 
 
 -- Inserindo dados na tabela Atributo
