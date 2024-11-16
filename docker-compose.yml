@@ -3,7 +3,6 @@ version: "3.8"
 networks:
   web_network:
     driver: bridge
-    internal: true
   external_network:
     driver: bridge
 
@@ -14,13 +13,15 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: urubu100
-      MYSQL_DATABASE: aulaSO
+      MYSQL_DATABASE: eyesAnalytic
     volumes:
       - ./init-scripts:/docker-entrypoint-initdb.d
+      - mysql_data:/var/lib/mysql  # Garantindo persistência dos dados
     ports:
-      - "3306:3306"
+      - "3306:3306"  # Expondo a porta 3306 para acesso externo
     networks:
       - web_network
+      - external_network  # Permitir a comunicação também na rede externa
 
   node:
     container_name: aplicacaoNode
