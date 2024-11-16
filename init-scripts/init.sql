@@ -58,6 +58,13 @@ fkPrioridade int,
 foreign key(fkPrioridade) references prioridade(idPrioridade)
 );
 
+create table log_ip(
+    idIp int primary key auto_increment,
+    ip char(15),
+    fkMaquina int,
+    foreign key (fkMaquina) references maquina(idMaquina)
+);
+
 -- Criando tabela Usuario
 create table usuario(
 idUsuario int primary key auto_increment,
