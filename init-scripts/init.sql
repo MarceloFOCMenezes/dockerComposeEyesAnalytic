@@ -1,3 +1,4 @@
+create database eyesAnalytic;
 use eyesAnalytic;
 
 -- Criando tabela tipo de usuario
@@ -213,26 +214,6 @@ INSERT INTO atributo_maquina_recurso (valor, fkAtributo, fkMaquinaRecurso) VALUE
 ('32 GB', 6, 4);      -- Capacidade de RAM da máquina 2
 
 -- ======================================================= VIEW =====================================================================================
-CREATE VIEW view_select_listar_chamados AS
-SELECT
-    c.idChamado,
-    c.assunto,
-    c.descricao,
-    c.situacao,
-    c.dtHora,
-    d.idUsuario AS idDiretor,
-    d.nome AS NomeDiretor,
-    d.email AS EmailDiretor,
-    e.idUsuario AS idEspecialista,
-    e.nome AS NomeEspecialista,
-    e.email AS EmailEspecialista,
-    u.idUrgencia
-FROM chamado AS c INNER JOIN usuario AS d
-    ON c.fkDiretor = d.idUsuario
-INNER JOIN usuario AS e
-    ON c.fkEspecialista = e.idUsuario
-INNER JOIN urgencia AS u
-    ON c.fkUrgencia = u.idUrgencia;
 
 -- VIEW LISTAGEM DE METRICAS DE ACORDO COM OS RECURSOS
 CREATE VIEW metrica_view AS
@@ -330,7 +311,30 @@ JOIN
 JOIN
     recurso AS r ON d.fkRecurso = r.idRecurso
 JOIN
-    empresa AS e ON m.fkEmpresa = e.idEmpresa;
+    empresa AS e ON m.fkEmpresa = e.idEmpresa
+ORDER BY
+    d.dtHora DESC;
+
+
+    CREATE VIEW view_quantidade_cpu AS
+SELECT fkMaquina, SUM(registro) AS total_cpu
+FROM dado_capturado
+GROUP BY fkMaquina
+ORDER BY total_cpu DESC
+LIMIT 0, 1000;
+
+CREATE VIEW estado_maquinas AS
+SELECT
+    m.nomeMaquina AS Servidor,
+    MAX(CASE WHEN dc.fkRecurso = 1 THEN dc.registro ELSE NULL END) AS CPU,
+    MAX(CASE WHEN dc.fkRecurso = 2 THEN dc.registro ELSE NULL END) AS RAM,
+    MAX(CASE WHEN dc.fkRecurso = 3 THEN dc.registro ELSE NULL END) AS Disco
+FROM
+    dado_capturado dc
+JOIN
+    maquina m ON dc.fkMaquina = m.idMaquina
+GROUP BY
+    m.nomeMaquina;
 
 -- =============================================================DELIMITER==============================================================================
 DELIMITER //
