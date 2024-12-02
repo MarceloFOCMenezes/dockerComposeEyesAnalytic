@@ -1,3 +1,5 @@
+version: '3.8'  # Especificando a versão do Docker Compose
+
 networks:
   web_network:
     driver: bridge
@@ -10,26 +12,27 @@ services:
     image: mysql:8.0
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: urubu100
-      MYSQL_DATABASE: eyesAnalytic
+      MYSQL_ROOT_PASSWORD: urubu100  # Senha para o usuário root
+      MYSQL_DATABASE: eyesAnalytic  # Nome do banco de dados a ser criado
     volumes:
-      - ./init-scripts:/docker-entrypoint-initdb.d
-      - mysql_data:/var/lib/mysql  # Garantindo persistência dos dados
+      - ./init-scripts:/docker-entrypoint-initdb.d  # Scripts de inicialização
+      - mysql_data:/var/lib/mysql  # Volume para persistência de dados
     ports:
       - "3306:3306"  # Expondo a porta 3306 para acesso externo
     networks:
       - web_network
-      - external_network  # Permitir a comunicação também na rede externa
+      - external_network  # Permite a comunicação na rede externa
 
   node:
     container_name: aplicacaoNode
     image: marcelofocmenezes/node-eyesanalytic:latest
     restart: always
     ports:
-      - "8080:8080"
+      - "8080:8080"  # Expondo a porta 8080 para o container Node.js
     networks:
       - web_network
-      - external_network
+      - external_network  # Permite a comunicação na rede externa
 
 volumes:
   mysql_data:
+    driver: local  # Garantindo o driver local para o volume
