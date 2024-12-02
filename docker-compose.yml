@@ -9,7 +9,7 @@ networks:
 services:
   mysql:
     container_name: aplicacaoMysql
-    image: mysql:8.0
+    image: mysql:8
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: urubu100  # Senha para o usuário root
